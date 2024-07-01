@@ -25,9 +25,12 @@ class UsersController < ApplicationController
   def correct_user
     ActiveRecord::Base.transaction do
     @user = User.lock.find(params[:id])
-    user.name = "admin"
-    user.save!
+    @user.name = "admin"
+    @user.save!
     end
-    redirect_to current_user unless current_user?(@user)
+    
+    unless current_user?(@user)
+      redirect_to current_user 
   end
+ end
 end
